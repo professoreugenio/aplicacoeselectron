@@ -1,42 +1,42 @@
+
 const {
     randomBytes,
-    scrypt,
-    timingSafeEqual
+    scrypt
 } = require('node:crypto');
 
 const { promisify } = require('node:util');
 
+// Reutiliza a verificação de senha do login original
+const { conferirSenha } = require('../auth/senhas');
+
 const derivar = promisify(scrypt);
 
+// Gera hashes compatíveis com o login existente
 async function gerarHash(senha) {
-    const sal = randomBytes(16).toString('hex');
-    const hash = await derivar(senha, sal, 64);
 
-    return `scrypt${'$'}${sal}${'$'}${hash.toString('hex')}`;
+    if (typeof senha !== 'string' || !senha) {
+        throw new Error('Senha inválida.');
+    }
+
+    // Gera 16 bytes aleatórios
+    const salBytes = randomBytes(16);
+
+    // Sal hexadecimal para armazenamento
+    const salHex = salBytes.toString('hex');
+
+    // O scrypt recebe os bytes, não a string hexadecimal
+    const hash = await derivar(
+        senha,
+        salBytes,
+        64
+    );
+
+    return `scrypt$${salHex}$${hash.toString('hex')}`;
 }
 
+// Utiliza exatamente o verificador do login
 async function verificarSenha(senha, armazenado) {
-    if (typeof armazenado !== 'string') {
-        return false;
-    }
-
-    const partes = armazenado.split('$');
-
-    if (
-        partes.length !== 3 ||
-        partes[0] !== 'scrypt' ||
-        !/^[0-9a-f]{32}$/i.test(partes[1]) ||
-        !/^[0-9a-f]{128}$/i.test(partes[2])
-    ) {
-        return false;
-    }
-
-    const [, sal, hashHex] = partes;
-
-    const hashEsperado = Buffer.from(hashHex, 'hex');
-    const hashCalculado = await derivar(senha, sal, 64);
-
-    return timingSafeEqual(hashEsperado, hashCalculado);
+    return conferirSenha(senha, armazenado);
 }
 
 module.exports = {
