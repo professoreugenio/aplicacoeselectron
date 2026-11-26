@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'">
+  <title>Painel MySQL — Sistema de Estoque</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/painel.js" defer></script>
+  <script src="js/sessao.js" defer></script>
+</head>
+<body>
+  <div class="aplicativo">
+    <aside class="menu-lateral" aria-label="Menu principal">
+      <div class="marca">📦 Estoque DEV</div>
+      <nav aria-label="Páginas do sistema">
+        <a class="menu-link ativo" href="sistema.html" aria-current="page">🏠 Início</a>
+        <a class="menu-link" href="produtos.html">📦 Produtos</a>
+        <a class="menu-link" href="categorias.html">🏷️ Categorias</a>
+        <a class="menu-link" href="movimentacoes.html">🔄 Movimentações</a>
+        <a class="menu-link" href="relatorios.html" data-admin-somente>📊 Relatórios</a>
+        <a class="menu-link" href="usuarios.html" data-admin-somente>📊 Usuários</a>
+        <a class="menu-link" href="perfil.html">📊 Perfil</a>
+      </nav>
+      <p class="menu-rodape">Projeto Integrador • Aula 04</p>
+    </aside>
+    <div class="area-principal">
+      <header class="barra-superior d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div><strong>Sistema de Controle de Estoque</strong>
+          <div class="small text-secondary">Painel com consultas reais ao MySQL • login ainda demonstrativo</div>
+        </div>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-sair>Sair</button>
+      </header>
+      <div class="identificacao-usuario px-4 py-2 bg-white border-bottom small" role="status">
+        <strong data-usuario-nome>Identificando...</strong>
+        <span class="text-secondary ms-2">ID: <span data-usuario-id>—</span> · Login: <span data-usuario-login>—</span> · Nível: <span data-usuario-perfil>—</span></span>
+      </div>
+      <main class="conteudo container-fluid">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+          <div><h1 class="h3 fw-bold mb-1">Integração Electron e MySQL</h1>
+            <p class="text-secondary mb-0">Consultas reais à base estoque_bd, sem editar registros nesta aula.</p></div>
+          <span id="statusBanco" class="badge text-bg-secondary">Aguardando conexão</span>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mb-2">
+          <button class="btn btn-primary" type="button" id="btnTestarConexao">Testar conexão e registrar evento</button>
+          <button class="btn btn-outline-primary" type="button" id="btnAtualizar">Atualizar dados do MySQL</button>
+        </div>
+        <p id="avisoBanco" class="small text-secondary" role="status" aria-live="polite">Preparando conexão...</p>
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card card-kpi h-100"><div class="card-body"><p class="small text-secondary mb-2">Produtos cadastrados</p><strong class="fs-2" id="totalProdutos">—</strong></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card card-kpi h-100"><div class="card-body"><p class="small text-secondary mb-2">Categorias cadastradas</p><strong class="fs-2" id="totalCategorias">—</strong></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card card-kpi h-100"><div class="card-body"><p class="small text-secondary mb-2">Movimentações de entrada</p><strong class="fs-2" id="totalEntradas">—</strong></div></div></div>
+          <div class="col-12 col-sm-6 col-xl-3"><div class="card card-kpi h-100"><div class="card-body"><p class="small text-secondary mb-2">Movimentações de saída</p><strong class="fs-2" id="totalSaidas">—</strong></div></div></div>
+        </div>
+        <div class="row g-3">
+          <div class="col-12 col-lg-8"><section class="card h-100 border-0 shadow-sm"><div class="card-body"><h2 class="h5">Últimos produtos do MySQL</h2><div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>ID</th><th>Produto</th><th>Categoria</th><th>Estoque</th></tr></thead><tbody id="tabelaProdutos"><tr><td colspan="4">Carregando...</td></tr></tbody></table></div></div></section></div>
+          <div class="col-12 col-lg-4"><section class="card h-100 border-0 shadow-sm"><div class="card-body"><h2 class="h5">Categorias do MySQL</h2><ul class="list-group list-group-flush" id="listaCategorias"><li class="list-group-item">Carregando...</li></ul></div></section></div>
+        </div>
+        <p class="small text-secondary mt-4">Os módulos Produtos, Categorias, Movimentações e Relatórios continuam com CRUD de demonstração em memória, conforme a Aula 02. Não há autenticação real nesta versão.</p>
+      </main>
+      <footer class="rodape">Sistema didático v0.4 • Consultas via IPC, preload.js e mysql2</footer>
+    </div>
+  </div>
+</body>
+</html>

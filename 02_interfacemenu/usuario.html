@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda — Usuários</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/estilo.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Menu lateral -->
+  <aside class="menu-lateral" id="menuLateral">
+    <div class="marca"><i class="bi bi-journal-bookmark-fill"></i>Minha Agenda</div>
+
+    <nav class="nav flex-column">
+      <a class="nav-link" href="index.html">
+        <i class="bi bi-house-door"></i> Início
+      </a>
+      <a class="nav-link" href="agenda.html">
+        <i class="bi bi-list-check"></i> Agenda
+      </a>
+      <a class="nav-link" href="calendario.html">
+        <i class="bi bi-calendar3"></i> Calendário
+      </a>
+      <a class="nav-link active" href="usuarios.html" aria-current="page">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+      <a class="nav-link" href="perfil.html">
+        <i class="bi bi-person-circle"></i> Perfil
+      </a>
+    </nav>
+
+    <div class="rodape-menu">Agenda v1.0</div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="conteudo">
+
+    <div class="barra-topo-mobile">
+      <button class="btn btn-outline-secondary" type="button" id="btnMenu" aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <strong>Minha Agenda</strong>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+      <div>
+        <h1 class="h3 mb-1">Usuários</h1>
+        <p class="text-muted mb-0">Gerencie quem tem acesso à agenda.</p>
+      </div>
+      <button class="btn btn-primary" type="button" id="btnNovo">
+        <i class="bi bi-person-plus"></i> Novo usuário
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-12 col-md-6">
+            <input type="search" class="form-control" id="filtroBusca" placeholder="Buscar por nome ou e-mail">
+          </div>
+          <div class="col-6 col-md-3">
+            <select class="form-select" id="filtroPapel" aria-label="Filtrar por nível de acesso">
+              <option value="">Todos os níveis</option>
+              <option>Administrador</option>
+              <option>Editor</option>
+              <option>Visualizador</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select class="form-select" id="filtroSituacao" aria-label="Filtrar por situação">
+              <option value="">Todas as situações</option>
+              <option value="ativo">Ativos</option>
+              <option value="inativo">Inativos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 tabela-usuarios">
+          <thead class="table-light">
+            <tr>
+              <th>Usuário</th>
+              <th>Telefone</th>
+              <th>Nível de acesso</th>
+              <th>Situação</th>
+              <th class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="listaUsuarios"></tbody>
+        </table>
+      </div>
+      <div class="text-center text-muted py-4 d-none" id="vazio">
+        Nenhum usuário encontrado. Clique em "Novo usuário" para cadastrar.
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal: cadastro/edição -->
+  <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="formUsuario">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloModal">Novo usuário</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="campoId">
+
+          <div class="mb-3">
+            <label for="campoNome" class="form-label">Nome completo</label>
+            <input type="text" class="form-control" id="campoNome" required maxlength="100">
+          </div>
+
+          <div class="mb-3">
+            <label for="campoEmail" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="campoEmail" required maxlength="120">
+          </div>
+
+          <div class="mb-3">
+            <label for="campoTelefone" class="form-label">Telefone</label>
+            <input type="tel" class="form-control" id="campoTelefone" placeholder="(85) 99999-9999" maxlength="20">
+          </div>
+
+          <div class="row g-3">
+            <div class="col-7">
+              <label for="campoPapel" class="form-label">Nível de acesso</label>
+              <select class="form-select" id="campoPapel">
+                <option>Administrador</option>
+                <option>Editor</option>
+                <option selected>Visualizador</option>
+              </select>
+            </div>
+            <div class="col-5">
+              <label for="campoSituacao" class="form-label">Situação</label>
+              <select class="form-select" id="campoSituacao">
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Menu lateral no celular
+    const menu = document.getElementById('menuLateral');
+    document.getElementById('btnMenu').addEventListener('click', () => menu.classList.toggle('aberto'));
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !e.target.closest('#btnMenu')) menu.classList.remove('aberto');
+    });
+
+    // ---------- Dados (salvos no navegador; troque por PHP/MySQL depois) ----------
+    const CHAVE = 'agenda_usuarios';
+    let usuarios = [];
+
+    function carregar() {
+      try { usuarios = JSON.parse(localStorage.getItem(CHAVE)) || []; }
+      catch (e) { usuarios = []; }
+    }
+    function salvar() {
+      try { localStorage.setItem(CHAVE, JSON.stringify(usuarios)); } catch (e) {}
+    }
+
+    const el = (id) => document.getElementById(id);
+    const modal = new bootstrap.Modal(el('modalUsuario'));
+    const coresPapel = { Administrador: 'danger', Editor: 'primary', Visualizador: 'secondary' };
+
+    function escapar(t) {
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML;
+    }
+    function iniciais(nome) {
+      const p = nome.trim().split(/\s+/);
+      return ((p[0] || '')[0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase();
+    }
+
+    // ---------- Listagem ----------
+    function listar() {
+      const busca = el('filtroBusca').value.trim().toLowerCase();
+      const papel = el('filtroPapel').value;
+      const situacao = el('filtroSituacao').value;
+
+      const itens = usuarios
+        .filter(u => !busca || u.nome.toLowerCase().includes(busca) || u.email.toLowerCase().includes(busca))
+        .filter(u => !papel || u.papel === papel)
+        .filter(u => !situacao || u.situacao === situacao)
+        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+      el('listaUsuarios').innerHTML = itens.map(u => `
+        <tr class="${u.situacao === 'inativo' ? 'inativo' : ''}">
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <span class="avatar">${escapar(iniciais(u.nome))}</span>
+              <div>
+                <div class="fw-semibold">${escapar(u.nome)}</div>
+                <div class="small text-muted">${escapar(u.email)}</div>
+              </div>
+            </div>
+          </td>
+          <td>${escapar(u.telefone || '—')}</td>
+          <td><span class="badge text-bg-${coresPapel[u.papel] || 'secondary'}">${u.papel}</span></td>
+          <td>
+            <span class="badge ${u.situacao === 'ativo' ? 'text-bg-success' : 'text-bg-light border'}">
+              ${u.situacao === 'ativo' ? 'Ativo' : 'Inativo'}
+            </span>
+          </td>
+          <td class="acoes">
+            <button class="btn btn-sm btn-outline-secondary" data-acao="alternar" data-id="${u.id}"
+                    title="${u.situacao === 'ativo' ? 'Desativar' : 'Ativar'}">
+              <i class="bi ${u.situacao === 'ativo' ? 'bi-person-dash' : 'bi-person-check'}"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" data-acao="editar" data-id="${u.id}" title="Editar">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" data-acao="excluir" data-id="${u.id}" title="Excluir">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>`).join('');
+
+      el('vazio').classList.toggle('d-none', itens.length > 0);
+    }
+
+    // ---------- Ações ----------
+    el('btnNovo').addEventListener('click', () => {
+      el('formUsuario').reset();
+      el('campoId').value = '';
+      el('tituloModal').textContent = 'Novo usuário';
+      modal.show();
+    });
+
+    el('formUsuario').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = el('campoId').value;
+      const dados = {
+        nome: el('campoNome').value.trim(),
+        email: el('campoEmail').value.trim(),
+        telefone: el('campoTelefone').value.trim(),
+        papel: el('campoPapel').value,
+        situacao: el('campoSituacao').value
+      };
+
+      const duplicado = usuarios.some(u => u.id !== id && u.email.toLowerCase() === dados.email.toLowerCase());
+      if (duplicado) {
+        alert('Já existe um usuário com este e-mail.');
+        return;
+      }
+
+      if (id) {
+        Object.assign(usuarios.find(u => u.id === id), dados);
+      } else {
+        usuarios.push({ id: String(Date.now()), ...dados });
+      }
+      salvar();
+      listar();
+      modal.hide();
+    });
+
+    el('listaUsuarios').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-acao]');
+      if (!btn) return;
+      const u = usuarios.find(x => x.id === btn.dataset.id);
+
+      if (btn.dataset.acao === 'alternar') {
+        u.situacao = u.situacao === 'ativo' ? 'inativo' : 'ativo';
+      } else if (btn.dataset.acao === 'excluir') {
+        if (!confirm(`Excluir o usuário "${u.nome}"?`)) return;
+        usuarios = usuarios.filter(x => x.id !== u.id);
+      } else if (btn.dataset.acao === 'editar') {
+        el('campoId').value = u.id;
+        el('campoNome').value = u.nome;
+        el('campoEmail').value = u.email;
+        el('campoTelefone').value = u.telefone || '';
+        el('campoPapel').value = u.papel;
+        el('campoSituacao').value = u.situacao;
+        el('tituloModal').textContent = 'Editar usuário';
+        modal.show();
+        return;
+      }
+      salvar();
+      listar();
+    });
+
+    ['filtroBusca', 'filtroPapel', 'filtroSituacao'].forEach(id => el(id).addEventListener('input', listar));
+
+    carregar();
+    listar();
+  </script>
+</body>
+</html>

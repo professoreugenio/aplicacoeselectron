@@ -1,0 +1,147 @@
+/* ==========================================================
+   css/estilo.css — estilos da Agenda (complementa o Bootstrap 5)
+   ========================================================== */
+
+:root {
+  --menu-largura: 260px;
+  --cor-menu: #1f2a44;
+  --cor-menu-hover: #2d3b5e;
+  --cor-destaque: #f2a900;
+  --cor-fundo: #f4f6fb;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  min-height: 100vh;
+}
+
+/* ---------- Menu lateral ---------- */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--menu-largura);
+  background-color: var(--cor-menu);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 1040;
+  transition: transform .25s ease;
+}
+
+.menu-lateral .marca {
+  padding: 1.25rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.menu-lateral .marca i {
+  color: var(--cor-destaque);
+  margin-right: .5rem;
+}
+
+.menu-lateral .nav {
+  padding: 1rem .75rem;
+  gap: .25rem;
+}
+
+.menu-lateral .nav-link {
+  color: rgba(255, 255, 255, .75);
+  border-radius: .5rem;
+  padding: .7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.menu-lateral .nav-link:hover,
+.menu-lateral .nav-link:focus-visible {
+  background-color: var(--cor-menu-hover);
+  color: #fff;
+}
+
+.menu-lateral .nav-link.active {
+  background-color: var(--cor-destaque);
+  color: #1f2a44;
+  font-weight: 600;
+}
+
+.menu-lateral .rodape-menu {
+  margin-top: auto;
+  padding: 1rem 1.5rem;
+  font-size: .8rem;
+  color: rgba(255, 255, 255, .5);
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+/* ---------- Conteúdo ---------- */
+.conteudo {
+  margin-left: var(--menu-largura);
+  padding: 2rem;
+}
+
+.barra-topo-mobile {
+  display: none;
+}
+
+.cartao-resumo {
+  border: 0;
+  border-left: 4px solid var(--cor-destaque);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+.cartao-resumo .numero {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.lista-compromissos .horario {
+  min-width: 4.5rem;
+  font-weight: 600;
+  color: var(--cor-menu);
+}
+
+/* ---------- Responsivo (celular/tablet) ---------- */
+@media (max-width: 991.98px) {
+  .menu-lateral {
+    transform: translateX(-100%);
+  }
+
+  .menu-lateral.aberto {
+    transform: translateX(0);
+  }
+
+  .conteudo {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .barra-topo-mobile {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-lateral,
+  .menu-lateral .nav-link {
+    transition: none;
+  }
+}
+
+/* ---------- Página Agenda ---------- */
+.tabela-agenda .concluido td:not(.acoes) {
+  text-decoration: line-through;
+  color: #8a93a6;
+}
+
+.tabela-agenda .acoes {
+  white-space: nowrap;
+  text-align: right;
+}

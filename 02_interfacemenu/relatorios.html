@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'">
+  <title>Relatórios — Sistema de Estoque</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/painel.js" defer></script>
+  <script src="js/sessao.js" defer></script>
+  <script src="js/crud.js" defer></script>
+</head>
+
+<body data-recurso="relatorios">
+  <div class="aplicativo">
+    <aside class="menu-lateral" aria-label="Menu principal">
+      <div class="marca">📦 Estoque DEV</div>
+      <nav aria-label="Páginas do sistema">
+        <a class="menu-link" href="sistema.html">🏠 Início</a>
+        <a class="menu-link" href="produtos.html">📦 Produtos</a>
+        <a class="menu-link" href="categorias.html">🏷️ Categorias</a>
+        <a class="menu-link" href="movimentacoes.html">🔄 Movimentações</a>
+        <a class="menu-link ativo" href="relatorios.html" aria-current="page">📊 Relatórios</a>
+      </nav>
+      <p class="menu-rodape">Projeto Integrador • Aula 02</p>
+    </aside>
+    <div class="area-principal">
+      <header class="barra-superior d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+          <strong>Sistema de Controle de Estoque</strong>
+          <div class="small text-secondary">Acesso identificado por usuário</div>
+        </div>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-sair>Sair</button>
+      </header>
+      
+      <div class="identificacao-usuario px-4 py-2 bg-white border-bottom small" role="status" aria-live="polite">
+        <strong data-usuario-nome>Identificando...</strong>
+        <span class="text-secondary ms-2">
+          ID: <span data-usuario-id>—</span>
+          · Login: <span data-usuario-login>—</span>
+          · Nível: <span data-usuario-perfil>—</span>
+        </span>
+      </div>
+      <main class="conteudo container-fluid">
+        <div class="d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
+          <div>
+            <h1 class="h3 fw-bold mb-1">Relatórios</h1>
+            <p class="text-secondary mb-0">Inclusão, listagem, edição e exclusão demonstrativas; nenhuma operação usa
+              MySQL.</p>
+          </div>
+        </div>
+        <div class="acoes mb-3">
+          <button id="btnNovo" class="btn btn-primary" type="button">+ Novo</button>
+          <button id="btnListar" class="btn btn-outline-primary" type="button">☷ Listar</button>
+        </div>
+        <section id="formArea" class="painel-form mb-3" hidden>
+          <h2 id="tituloFormulario" class="h5">Novo registro</h2>
+          <form id="formCadastro">
+            <input type="hidden" id="idRegistro">
+            <div class="mb-3"><label class="form-label" id="rotuloNome" for="nomeRegistro">Nome do relatório</label>
+              <input type="text" class="form-control" id="nomeRegistro" maxlength="150" required>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+          </form>
+        </section>
+        <p id="mensagem" class="status-msg text-secondary small" role="status" aria-live="polite"></p>
+        <section class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h2 class="h5">Lista de relatórios</h2>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome do relatório</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="registros"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <div class="alert alert-warning mt-3 mb-0">Os registros existem apenas na memória desta página e serão
+          restaurados ao recarregar. Não há autenticação ou acesso ao banco.</div>
+      </main>
+      <footer class="rodape">Sistema didático v0.2 • Sem autenticação e sem persistência de dados</footer>
+    </div>
+  </div>
+</body>
+
+</html>

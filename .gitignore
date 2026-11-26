@@ -1,0 +1,19 @@
+# Dependências do Node.js
+node_modules/
+
+# Variáveis de ambiente e credenciais
+.env
+.env.*
+!.env.example
+
+# Arquivos de log
+*.log
+
+# Pastas de compilação
+dist/
+out/
+build/
+
+# Arquivos temporários do sistema
+.DS_Store
+Thumbs.db

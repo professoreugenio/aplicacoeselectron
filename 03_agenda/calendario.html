@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda — Calendário</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/estilocalendario.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Menu lateral -->
+  <aside class="menu-lateral" id="menuLateral">
+    <div class="marca"><i class="bi bi-journal-bookmark-fill"></i>Minha Agenda</div>
+
+    <nav class="nav flex-column">
+      <a class="nav-link" href="index.html">
+        <i class="bi bi-house-door"></i> Início
+      </a>
+      <a class="nav-link" href="agenda.html">
+        <i class="bi bi-list-check"></i> Agenda
+      </a>
+      <a class="nav-link active" href="calendario.html" aria-current="page">
+        <i class="bi bi-calendar3"></i> Calendário
+      </a>
+      <a class="nav-link" href="usuario.html">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+      <a class="nav-link" href="perfil.html">
+        <i class="bi bi-person-circle"></i> Perfil
+      </a>
+    </nav>
+
+    <div class="rodape-menu">Agenda v1.0</div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="conteudo">
+
+    <div class="barra-topo-mobile">
+      <button class="btn btn-outline-secondary" type="button" id="btnMenu" aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <strong>Minha Agenda</strong>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+      <div>
+        <h1 class="h3 mb-1">Calendário</h1>
+        <p class="text-muted mb-0">Veja seus compromissos mês a mês.</p>
+      </div>
+      <a href="agenda.html" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Novo compromisso
+      </a>
+    </div>
+
+    <div class="row g-3">
+
+      <!-- Calendário -->
+      <div class="col-12 col-xl-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-secondary" id="btnAnterior" aria-label="Mês anterior">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" id="btnProximo" aria-label="Próximo mês">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            <h2 class="h5 mb-0 flex-grow-1 text-capitalize" id="tituloMes" aria-live="polite"></h2>
+            <button class="btn btn-sm btn-outline-primary" id="btnHoje">Hoje</button>
+          </div>
+          <div class="card-body">
+            <div class="grade-calendario" id="grade"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dia selecionado -->
+      <div class="col-12 col-xl-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white fw-semibold" id="tituloDia">Dia selecionado</div>
+          <ul class="list-group list-group-flush" id="listaDia"></ul>
+          <div class="card-body text-muted small d-none" id="vazioDia">
+            Nenhum compromisso neste dia.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Menu lateral no celular
+    const menu = document.getElementById('menuLateral');
+    document.getElementById('btnMenu').addEventListener('click', () => menu.classList.toggle('aberto'));
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !e.target.closest('#btnMenu')) menu.classList.remove('aberto');
+    });
+
+    // ---------- Dados (mesma chave usada em agenda.html) ----------
+    function carregar() {
+      try { return JSON.parse(localStorage.getItem('agenda_compromissos')) || []; }
+      catch (e) { return []; }
+    }
+
+    const el = (id) => document.getElementById(id);
+    const NOMES_DIAS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const MAX_EVENTOS = 2;
+
+    const hoje = new Date();
+    let ano = hoje.getFullYear();
+    let mes = hoje.getMonth();
+    let selecionado = iso(hoje);
+
+    function iso(d) {
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const dia = String(d.getDate()).padStart(2, '0');
+      return `${d.getFullYear()}-${m}-${dia}`;
+    }
+    function escapar(t) {
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML;
+    }
+
+    // ---------- Desenho do mês ----------
+    function desenhar() {
+      const todos = carregar();
+      const porDia = {};
+      todos.forEach(c => (porDia[c.data] = porDia[c.data] || []).push(c));
+      Object.values(porDia).forEach(l => l.sort((a, b) => a.hora.localeCompare(b.hora)));
+
+      el('tituloMes').textContent =
+        new Date(ano, mes, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+      const primeiro = new Date(ano, mes, 1);
+      const inicio = new Date(ano, mes, 1 - primeiro.getDay());   // domingo da primeira semana
+      const totalDias = Math.ceil((primeiro.getDay() + new Date(ano, mes + 1, 0).getDate()) / 7) * 7;
+
+      let html = NOMES_DIAS.map(n => `<div class="dia-semana">${n}</div>`).join('');
+
+      for (let i = 0; i < totalDias; i++) {
+        const d = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate() + i);
+        const chave = iso(d);
+        const eventos = porDia[chave] || [];
+        const classes = ['dia'];
+        if (d.getMonth() !== mes) classes.push('fora');
+        if (chave === iso(hoje)) classes.push('hoje');
+        if (chave === selecionado) classes.push('selecionado');
+
+        html += `
+          <button type="button" class="${classes.join(' ')}" data-data="${chave}"
+                  aria-label="${d.toLocaleDateString('pt-BR', { dateStyle: 'full' })}, ${eventos.length} compromisso(s)">
+            <span class="numero-dia">${d.getDate()}</span>
+            ${eventos.slice(0, MAX_EVENTOS).map(c =>
+              `<span class="evento ${c.concluido ? 'concluido' : ''}">${c.hora} ${escapar(c.titulo)}</span>`).join('')}
+            ${eventos.length > MAX_EVENTOS ? `<span class="mais">+${eventos.length - MAX_EVENTOS} mais</span>` : ''}
+          </button>`;
+      }
+      el('grade').innerHTML = html;
+      mostrarDia(porDia[selecionado] || []);
+    }
+
+    // ---------- Painel do dia ----------
+    function mostrarDia(eventos) {
+      const [a, m, d] = selecionado.split('-').map(Number);
+      el('tituloDia').textContent =
+        new Date(a, m - 1, d).toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+      el('listaDia').innerHTML = eventos.map(c => `
+        <li class="list-group-item d-flex gap-3">
+          <span class="fw-semibold">${c.hora}</span>
+          <div class="${c.concluido ? 'text-decoration-line-through text-muted' : ''}">
+            ${escapar(c.titulo)}
+            <div class="small text-muted">${c.categoria}${c.obs ? ' · ' + escapar(c.obs) : ''}</div>
+          </div>
+        </li>`).join('');
+      el('vazioDia').classList.toggle('d-none', eventos.length > 0);
+    }
+
+    // ---------- Navegação ----------
+    function mudarMes(delta) {
+      const d = new Date(ano, mes + delta, 1);
+      ano = d.getFullYear();
+      mes = d.getMonth();
+      desenhar();
+    }
+    el('btnAnterior').addEventListener('click', () => mudarMes(-1));
+    el('btnProximo').addEventListener('click', () => mudarMes(1));
+    el('btnHoje').addEventListener('click', () => {
+      ano = hoje.getFullYear();
+      mes = hoje.getMonth();
+      selecionado = iso(hoje);
+      desenhar();
+    });
+
+    el('grade').addEventListener('click', (e) => {
+      const btn = e.target.closest('.dia');
+      if (!btn) return;
+      selecionado = btn.dataset.data;
+      const [a, m] = selecionado.split('-').map(Number);
+      if (a !== ano || m - 1 !== mes) { ano = a; mes = m - 1; }
+      desenhar();
+    });
+
+    desenhar();
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+:root { font-family: Arial, Helvetica, sans-serif; color: #172a43; background: #eff4f9; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.cabecalho { background: #0f3460; color: white; padding: 26px 36px; }
+.cabecalho h1 { margin: 0 0 8px; font-size: 27px; }
+.cabecalho p { margin: 0; color: #d6e8fa; }
+.conteudo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; padding: 28px 36px; }
+section { background: white; border-radius: 12px; padding: 22px; box-shadow: 0 2px 12px #15324b15; }
+h2 { margin-top: 0; font-size: 20px; }
+button { background: #0868bb; color: white; border: 0; border-radius: 7px; padding: 11px 17px; cursor: pointer; }
+button:hover, button:focus-visible { background: #064f91; }
+#mensagem { min-height: 24px; font-weight: bold; }
+.rodape { padding: 16px 36px; font-size: 13px; color: #4d647c; }
+@media (max-width: 800px) { .conteudo { grid-template-columns: 1fr; } }

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda — Compromissos</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/estiloagenda.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Menu lateral -->
+  <aside class="menu-lateral" id="menuLateral">
+    <div class="marca"><i class="bi bi-journal-bookmark-fill"></i>Minha Agenda</div>
+
+    <nav class="nav flex-column">
+      <a class="nav-link" href="index.html">
+        <i class="bi bi-house-door"></i> Início
+      </a>
+      <a class="nav-link active" href="agenda.html" aria-current="page">
+        <i class="bi bi-list-check"></i> Agenda
+      </a>
+      <a class="nav-link" href="calendario.html">
+        <i class="bi bi-calendar3"></i> Calendário
+      </a>
+      <a class="nav-link" href="usuario.html">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+      <a class="nav-link" href="perfil.html">
+        <i class="bi bi-person-circle"></i> Perfil
+      </a>
+    </nav>
+
+    <div class="rodape-menu">Agenda v1.0</div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="conteudo">
+
+    <div class="barra-topo-mobile">
+      <button class="btn btn-outline-secondary" type="button" id="btnMenu" aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <strong>Minha Agenda</strong>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+      <div>
+        <h1 class="h3 mb-1">Agenda</h1>
+        <p class="text-muted mb-0">Cadastre e acompanhe seus compromissos.</p>
+      </div>
+      <button class="btn btn-primary" type="button" id="btnNovo">
+        <i class="bi bi-plus-lg"></i> Novo compromisso
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-12 col-md-5">
+            <input type="search" class="form-control" id="filtroBusca" placeholder="Buscar por título">
+          </div>
+          <div class="col-6 col-md-3">
+            <input type="date" class="form-control" id="filtroData" aria-label="Filtrar por data">
+          </div>
+          <div class="col-6 col-md-3">
+            <select class="form-select" id="filtroStatus" aria-label="Filtrar por situação">
+              <option value="">Todos</option>
+              <option value="pendente">Pendentes</option>
+              <option value="concluido">Concluídos</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-1 d-grid">
+            <button class="btn btn-outline-secondary" type="button" id="btnLimpar" title="Limpar filtros">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 tabela-agenda">
+          <thead class="table-light">
+            <tr>
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Título</th>
+              <th>Categoria</th>
+              <th class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="listaAgenda"></tbody>
+        </table>
+      </div>
+      <div class="text-center text-muted py-4 d-none" id="vazio">
+        Nenhum compromisso encontrado. Clique em "Novo compromisso" para cadastrar.
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal: cadastro/edição -->
+  <div class="modal fade" id="modalCompromisso" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="formCompromisso">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloModal">Novo compromisso</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="campoId">
+
+          <div class="mb-3">
+            <label for="campoTitulo" class="form-label">Título</label>
+            <input type="text" class="form-control" id="campoTitulo" required maxlength="120">
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-7">
+              <label for="campoData" class="form-label">Data</label>
+              <input type="date" class="form-control" id="campoData" required>
+            </div>
+            <div class="col-5">
+              <label for="campoHora" class="form-label">Hora</label>
+              <input type="time" class="form-control" id="campoHora" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="campoCategoria" class="form-label">Categoria</label>
+            <select class="form-select" id="campoCategoria">
+              <option>Trabalho</option>
+              <option>Estudo</option>
+              <option>Aulas</option>
+              <option>Pessoal</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="campoObs" class="form-label">Observações</label>
+            <textarea class="form-control" id="campoObs" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Menu lateral no celular
+    const menu = document.getElementById('menuLateral');
+    document.getElementById('btnMenu').addEventListener('click', () => menu.classList.toggle('aberto'));
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !e.target.closest('#btnMenu')) menu.classList.remove('aberto');
+    });
+
+    // ---------- Dados (salvos no navegador; troque por PHP/MySQL depois) ----------
+    const CHAVE = 'agenda_compromissos';
+    let compromissos = [];
+
+    function carregar() {
+      try { compromissos = JSON.parse(localStorage.getItem(CHAVE)) || []; }
+      catch (e) { compromissos = []; }
+    }
+    function salvar() {
+      try { localStorage.setItem(CHAVE, JSON.stringify(compromissos)); } catch (e) {}
+    }
+
+    const el = (id) => document.getElementById(id);
+    const modal = new bootstrap.Modal(el('modalCompromisso'));
+    const cores = { Trabalho: 'primary', Estudo: 'warning', Aulas: 'success', Pessoal: 'secondary' };
+
+    function escapar(t) {
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML;
+    }
+    function formatarData(iso) {
+      const [a, m, d] = iso.split('-');
+      return `${d}/${m}/${a}`;
+    }
+
+    // ---------- Listagem ----------
+    function listar() {
+      const busca = el('filtroBusca').value.trim().toLowerCase();
+      const data = el('filtroData').value;
+      const status = el('filtroStatus').value;
+
+      const itens = compromissos
+        .filter(c => !busca || c.titulo.toLowerCase().includes(busca))
+        .filter(c => !data || c.data === data)
+        .filter(c => !status || (status === 'concluido') === c.concluido)
+        .sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora));
+
+      el('listaAgenda').innerHTML = itens.map(c => `
+        <tr class="${c.concluido ? 'concluido' : ''}">
+          <td>${formatarData(c.data)}</td>
+          <td>${c.hora}</td>
+          <td>${escapar(c.titulo)}${c.obs ? `<div class="small text-muted">${escapar(c.obs)}</div>` : ''}</td>
+          <td><span class="badge text-bg-${cores[c.categoria] || 'secondary'}">${c.categoria}</span></td>
+          <td class="acoes">
+            <button class="btn btn-sm btn-outline-success" data-acao="concluir" data-id="${c.id}"
+                    title="${c.concluido ? 'Reabrir' : 'Concluir'}">
+              <i class="bi ${c.concluido ? 'bi-arrow-counterclockwise' : 'bi-check-lg'}"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" data-acao="editar" data-id="${c.id}" title="Editar">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" data-acao="excluir" data-id="${c.id}" title="Excluir">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>`).join('');
+
+      el('vazio').classList.toggle('d-none', itens.length > 0);
+    }
+
+    // ---------- Ações ----------
+    el('btnNovo').addEventListener('click', () => {
+      el('formCompromisso').reset();
+      el('campoId').value = '';
+      el('campoData').value = new Date().toISOString().slice(0, 10);
+      el('tituloModal').textContent = 'Novo compromisso';
+      modal.show();
+    });
+
+    el('formCompromisso').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = el('campoId').value;
+      const dados = {
+        titulo: el('campoTitulo').value.trim(),
+        data: el('campoData').value,
+        hora: el('campoHora').value,
+        categoria: el('campoCategoria').value,
+        obs: el('campoObs').value.trim()
+      };
+      if (id) {
+        const c = compromissos.find(x => x.id === id);
+        Object.assign(c, dados);
+      } else {
+        compromissos.push({ id: String(Date.now()), concluido: false, ...dados });
+      }
+      salvar();
+      listar();
+      modal.hide();
+    });
+
+    el('listaAgenda').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-acao]');
+      if (!btn) return;
+      const c = compromissos.find(x => x.id === btn.dataset.id);
+
+      if (btn.dataset.acao === 'concluir') {
+        c.concluido = !c.concluido;
+      } else if (btn.dataset.acao === 'excluir') {
+        if (!confirm('Excluir este compromisso?')) return;
+        compromissos = compromissos.filter(x => x.id !== c.id);
+      } else if (btn.dataset.acao === 'editar') {
+        el('campoId').value = c.id;
+        el('campoTitulo').value = c.titulo;
+        el('campoData').value = c.data;
+        el('campoHora').value = c.hora;
+        el('campoCategoria').value = c.categoria;
+        el('campoObs').value = c.obs || '';
+        el('tituloModal').textContent = 'Editar compromisso';
+        modal.show();
+        return;
+      }
+      salvar();
+      listar();
+    });
+
+    ['filtroBusca', 'filtroData', 'filtroStatus'].forEach(id => el(id).addEventListener('input', listar));
+    el('btnLimpar').addEventListener('click', () => {
+      el('filtroBusca').value = '';
+      el('filtroData').value = '';
+      el('filtroStatus').value = '';
+      listar();
+    });
+
+    carregar();
+    listar();
+  </script>
+</body>
+</html>

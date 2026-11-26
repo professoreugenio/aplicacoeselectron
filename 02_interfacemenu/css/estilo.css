@@ -1,0 +1,221 @@
+/* Aula 02 — CSS completo. Caminho: 01_sistema_estoque/css/estilo.css */
+:root {
+  --navy: #102d50;
+  --navy2: #14558d;
+  --blue: #0d6efd;
+  --surface: #f0f5fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Arial, sans-serif;
+  color: #203348;
+}
+
+/* index.html */
+body.tela-login {
+  min-height: 100vh;
+  background-color: #134267;
+  background-image: linear-gradient(90deg, rgba(8, 28, 48, .13), rgba(4, 33, 64, .45)), url('../img/bgtelainicial.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-area {
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 32px max(5%, 24px);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+  border: 0;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 20px 65px rgba(2, 28, 49, .32);
+  overflow: hidden;
+}
+
+.login-card .card-body {
+  padding: 36px;
+}
+
+.login-icone {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #e9f3ff;
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.login-card h1 {
+  font-size: 1.55rem;
+  font-weight: 750;
+  margin-bottom: 7px;
+}
+
+.login-card input {
+  border-radius: 10px;
+  min-height: 47px;
+}
+
+.login-card .btn {
+  min-height: 46px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* sistema.html e módulos */
+.aplicativo {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+.menu-lateral {
+  background: linear-gradient(180deg, var(--navy), var(--navy2));
+  color: white;
+  padding: 24px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.marca {
+  font-size: 1.25rem;
+  font-weight: 750;
+  padding: 7px 13px 24px;
+}
+
+.menu-link {
+  display: block;
+  color: #e8f3ff;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.menu-link:hover,
+.menu-link:focus-visible,
+.menu-link.ativo {
+  background: #0873ca;
+  color: white;
+}
+
+.menu-rodape {
+  margin-top: auto;
+  font-size: .78rem;
+  color: #c6def5;
+  padding: 18px 12px 0;
+}
+
+.area-principal {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.barra-superior {
+  background: white;
+  padding: 19px 27px;
+  border-bottom: 1px solid #e0e7ef;
+}
+
+.conteudo {
+  padding: 28px;
+  flex: 1;
+}
+
+.card-kpi {
+  border: 0;
+  border-left: 4px solid #0873ca;
+  box-shadow: 0 4px 16px rgba(15, 40, 70, .06);
+}
+
+.painel-form {
+  background: #fff;
+  border: 1px solid #dfe6ee;
+  border-radius: 13px;
+  padding: 22px;
+}
+
+.painel-form[hidden] {
+  display: none !important;
+}
+
+.acoes {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.status-msg {
+  min-height: 24px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.rodape {
+  padding: 15px 28px;
+  color: #667a8c;
+  font-size: .78rem;
+}
+
+@media (max-width:850px) {
+  .aplicativo {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-lateral {
+    padding: 12px;
+  }
+
+  .marca {
+    padding: 5px 10px 10px;
+  }
+
+  .menu-lateral nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .menu-link {
+    margin: 0;
+    padding: 9px 12px;
+  }
+
+  .menu-rodape {
+    display: none;
+  }
+
+  .login-area {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card .card-body {
+    padding: 28px;
+  }
+}

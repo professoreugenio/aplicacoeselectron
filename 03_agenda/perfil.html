@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agenda — Perfil</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/estiloperfil.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Menu lateral -->
+  <aside class="menu-lateral" id="menuLateral">
+    <div class="marca"><i class="bi bi-journal-bookmark-fill"></i>Minha Agenda</div>
+
+    <nav class="nav flex-column">
+      <a class="nav-link" href="index.html">
+        <i class="bi bi-house-door"></i> Início
+      </a>
+      <a class="nav-link" href="agenda.html">
+        <i class="bi bi-list-check"></i> Agenda
+      </a>
+      <a class="nav-link" href="calendario.html">
+        <i class="bi bi-calendar3"></i> Calendário
+      </a>
+      <a class="nav-link" href="usuario.html">
+        <i class="bi bi-people"></i> Usuários
+      </a>
+      <a class="nav-link active" href="perfil.html" aria-current="page">
+        <i class="bi bi-person-circle"></i> Perfil
+      </a>
+    </nav>
+
+    <div class="rodape-menu">Agenda v1.0</div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="conteudo">
+
+    <div class="barra-topo-mobile">
+      <button class="btn btn-outline-secondary" type="button" id="btnMenu" aria-label="Abrir menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <strong>Minha Agenda</strong>
+    </div>
+
+    <div class="mb-4">
+      <h1 class="h3 mb-1">Perfil</h1>
+      <p class="text-muted mb-0">Seus dados pessoais e preferências.</p>
+    </div>
+
+    <div class="row g-3">
+
+      <!-- Cartão lateral -->
+      <div class="col-12 col-lg-4">
+        <div class="card shadow-sm cartao-perfil text-center">
+          <div class="card-body">
+            <span class="avatar avatar-grande mb-3" id="avatarPerfil">?</span>
+            <h2 class="h5 mb-0" id="resumoNome">Seu nome</h2>
+            <div class="text-muted" id="resumoCargo">Cargo não informado</div>
+            <div class="small text-muted mb-3" id="resumoEmail">—</div>
+
+            <div class="row border-top pt-3">
+              <div class="col-6">
+                <div class="estatistica" id="totalCompromissos">0</div>
+                <div class="small text-muted">compromissos</div>
+              </div>
+              <div class="col-6">
+                <div class="estatistica" id="totalConcluidos">0</div>
+                <div class="small text-muted">concluídos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulários -->
+      <div class="col-12 col-lg-8">
+
+        <!-- Dados pessoais -->
+        <form class="card shadow-sm mb-3" id="formPerfil">
+          <div class="card-header bg-white fw-semibold">Dados pessoais</div>
+          <div class="card-body">
+            <div id="avisoPerfil" class="alert alert-success py-2 d-none" role="status">
+              Perfil salvo com sucesso.
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="campoNome" class="form-label">Nome completo</label>
+                <input type="text" class="form-control" id="campoNome" required maxlength="100">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="campoEmail" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="campoEmail" required maxlength="120">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="campoTelefone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="campoTelefone" placeholder="(85) 99999-9999" maxlength="20">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="campoCargo" class="form-label">Cargo ou função</label>
+                <input type="text" class="form-control" id="campoCargo" maxlength="80">
+              </div>
+              <div class="col-12">
+                <label for="campoBio" class="form-label">Sobre você</label>
+                <textarea class="form-control" id="campoBio" rows="3" maxlength="300"></textarea>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h3 class="h6 mb-3">Preferências</h3>
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="prefLembrete" checked>
+              <label class="form-check-label" for="prefLembrete">Receber lembretes de compromissos por e-mail</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="prefResumo">
+              <label class="form-check-label" for="prefResumo">Receber resumo semanal da agenda</label>
+            </div>
+          </div>
+          <div class="card-footer bg-white text-end">
+            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+          </div>
+        </form>
+
+        <!-- Alterar senha -->
+        <form class="card shadow-sm" id="formSenha" novalidate>
+          <div class="card-header bg-white fw-semibold">Alterar senha</div>
+          <div class="card-body">
+            <div id="avisoSenha" class="alert py-2 d-none" role="alert"></div>
+
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="senhaAtual" class="form-label">Senha atual</label>
+                <input type="password" class="form-control" id="senhaAtual" autocomplete="current-password">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="senhaNova" class="form-label">Nova senha</label>
+                <input type="password" class="form-control" id="senhaNova" autocomplete="new-password"
+                       aria-describedby="ajudaSenha">
+                <div id="ajudaSenha" class="form-text">Mínimo de 8 caracteres.</div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="senhaConfirma" class="form-label">Confirmar nova senha</label>
+                <input type="password" class="form-control" id="senhaConfirma" autocomplete="new-password">
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-white text-end">
+            <button type="submit" class="btn btn-outline-primary">Atualizar senha</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Menu lateral no celular
+    const menu = document.getElementById('menuLateral');
+    document.getElementById('btnMenu').addEventListener('click', () => menu.classList.toggle('aberto'));
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !e.target.closest('#btnMenu')) menu.classList.remove('aberto');
+    });
+
+    const el = (id) => document.getElementById(id);
+    const CHAVE = 'agenda_perfil';
+
+    // ---------- Dados do perfil (salvos no navegador; troque por PHP/MySQL depois) ----------
+    function carregarPerfil() {
+      try { return JSON.parse(localStorage.getItem(CHAVE)) || {}; }
+      catch (e) { return {}; }
+    }
+    function iniciais(nome) {
+      const p = nome.trim().split(/\s+/).filter(Boolean);
+      if (!p.length) return '?';
+      return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase();
+    }
+
+    function atualizarResumo(p) {
+      el('avatarPerfil').textContent = iniciais(p.nome || '');
+      el('resumoNome').textContent = p.nome || 'Seu nome';
+      el('resumoCargo').textContent = p.cargo || 'Cargo não informado';
+      el('resumoEmail').textContent = p.email || '—';
+    }
+
+    function preencherFormulario() {
+      const p = carregarPerfil();
+      el('campoNome').value = p.nome || '';
+      el('campoEmail').value = p.email || '';
+      el('campoTelefone').value = p.telefone || '';
+      el('campoCargo').value = p.cargo || '';
+      el('campoBio').value = p.bio || '';
+      el('prefLembrete').checked = p.lembrete !== false;
+      el('prefResumo').checked = p.resumo === true;
+      atualizarResumo(p);
+    }
+
+    // Estatísticas: lê os compromissos cadastrados em agenda.html
+    function carregarEstatisticas() {
+      let lista = [];
+      try { lista = JSON.parse(localStorage.getItem('agenda_compromissos')) || []; } catch (e) {}
+      el('totalCompromissos').textContent = lista.length;
+      el('totalConcluidos').textContent = lista.filter(c => c.concluido).length;
+    }
+
+    el('formPerfil').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const p = {
+        nome: el('campoNome').value.trim(),
+        email: el('campoEmail').value.trim(),
+        telefone: el('campoTelefone').value.trim(),
+        cargo: el('campoCargo').value.trim(),
+        bio: el('campoBio').value.trim(),
+        lembrete: el('prefLembrete').checked,
+        resumo: el('prefResumo').checked
+      };
+      try { localStorage.setItem(CHAVE, JSON.stringify(p)); } catch (err) {}
+      atualizarResumo(p);
+
+      const aviso = el('avisoPerfil');
+      aviso.classList.remove('d-none');
+      setTimeout(() => aviso.classList.add('d-none'), 3000);
+    });
+
+    // ---------- Senha ----------
+    // Atenção: a senha NUNCA deve ser guardada no navegador.
+    // Aqui só validamos; para gravar de verdade, envie ao servidor (PHP) com fetch/POST
+    // e use password_hash() no banco.
+    function avisoSenha(tipo, texto) {
+      const a = el('avisoSenha');
+      a.className = `alert alert-${tipo} py-2`;
+      a.textContent = texto;
+    }
+
+    el('formSenha').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const atual = el('senhaAtual').value;
+      const nova = el('senhaNova').value;
+      const confirma = el('senhaConfirma').value;
+
+      if (!atual) return avisoSenha('danger', 'Informe a senha atual.');
+      if (nova.length < 8) return avisoSenha('danger', 'A nova senha precisa ter pelo menos 8 caracteres.');
+      if (nova !== confirma) return avisoSenha('danger', 'A confirmação não é igual à nova senha.');
+      if (nova === atual) return avisoSenha('danger', 'A nova senha deve ser diferente da atual.');
+
+      // TODO: fetch('senha.php', { method: 'POST', body: new FormData(el('formSenha')) })
+      avisoSenha('info', 'Senha validada. Ligue este formulário ao seu PHP para gravar a alteração.');
+      el('formSenha').reset();
+    });
+
+    preencherFormulario();
+    carregarEstatisticas();
+  </script>
+</body>
+</html>

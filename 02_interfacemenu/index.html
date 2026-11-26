@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'">
+  <title>Login — Sistema de Estoque</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/login.js" defer></script>
+</head>
+<body class="tela-login">
+  <main class="login-area">
+    <section class="card login-card" aria-labelledby="loginTitulo">
+      <div class="card-body">
+        <div class="login-icone" aria-hidden="true">📦</div>
+        <h1 id="loginTitulo">Sistema de Estoque</h1>
+        <p class="text-secondary mb-4">Entre para acessar o painel administrativo.</p>
+        <form id="formLogin">
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="login">Login</label>
+            <input class="form-control" type="text" id="login" name="login" value="admin" placeholder="Digite seu usuário" autocomplete="username" required maxlength="60">
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-semibold" for="senha">Senha</label>
+            <input class="form-control" type="password" value="adminelectron2026" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+          </div>
+          <button id="btnEntrar" class="btn btn-primary w-100" type="submit">Entrar no sistema</button>
+        </form>
+        <p id="mensagemLogin" role="status" aria-live="polite" class="small text-danger mt-3 mb-0"></p>
+        <p class="small text-secondary mb-0 mt-3">Acesso autenticado no banco estoque_bd. Utilize as credenciais cadastradas na Aula 03.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
