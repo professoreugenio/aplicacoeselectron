@@ -1,28 +1,140 @@
-<form id="formSenha">
-  <label for="senhaAtual">
-    Senha atual
-  </label>
-  <input id="senhaAtual"
-         type="password"
-         required>
+<!doctype html>
+<html lang="pt-BR">
 
-  <label for="senhaNova">
-    Nova senha
-  </label>
-  <input id="senhaNova"
-         type="password"
-         minlength="12"
-         required>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <label for="senhaConfirma">
-    Confirmar nova senha
-  </label>
-  <input id="senhaConfirma"
-         type="password"
-         minlength="12"
-         required>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';
+                 style-src 'self'; img-src 'self' data:;
+                 object-src 'none'; base-uri 'none'">
 
-  <button type="submit">
-    Alterar senha
-  </button>
-</form>
+  <title>Meu Perfil — Sistema de Estoque</title>
+
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="css/estilo.css">
+
+  <script src="js/sessao.js" defer></script>
+  <script src="js/perfil.js" defer></script>
+</head>
+
+<body data-recurso="perfil">
+  <div class="aplicativo">
+
+    <aside class="menu-lateral">
+      <div class="marca">📦 Estoque DEV</div>
+
+      <nav aria-label="Menu principal">
+        <a class="menu-link" href="sistema.html">
+          🏠 Início
+        </a>
+        <a class="menu-link" href="produtos.html">
+          📦 Produtos
+        </a>
+        <a class="menu-link" href="categorias.html" data-admin-somente>
+          🏷️ Categorias
+        </a>
+        <a class="menu-link" href="movimentacoes.html">
+          🔄 Movimentações
+        </a>
+        <a class="menu-link" href="relatorios.html" data-admin-somente>
+          📊 Relatórios
+        </a>
+        <a class="menu-link" href="usuarios.html" data-admin-somente>
+          👥 Usuários
+        </a>
+        <a class="menu-link ativo" href="perfil.html" aria-current="page">
+          👤 Meu Perfil
+        </a>
+      </nav>
+    </aside>
+
+    <div class="area-principal">
+
+      <header class="barra-superior d-flex
+                     justify-content-between
+                     align-items-center">
+        <div>
+          <strong>Sistema de Controle de Estoque</strong>
+          <div class="small text-secondary">
+            Configurações da conta
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-sair>
+          Sair
+        </button>
+      </header>
+
+      <div class="identificacao-usuario px-4 py-2
+                  bg-white border-bottom small">
+        <strong data-usuario-nome>
+          Identificando...
+        </strong>
+
+        <span class="text-secondary ms-2">
+          ID: <span data-usuario-id>—</span>
+          · Login: <span data-usuario-login>—</span>
+          · Nível: <span data-usuario-perfil>—</span>
+        </span>
+      </div>
+
+      <main class="conteudo container-fluid">
+        <h1 class="h3 fw-bold">Meu Perfil</h1>
+
+        <p class="text-secondary">
+          Atualize sua senha de acesso ao sistema.
+        </p>
+
+        <section class="card border-0 shadow-sm" style="max-width:650px">
+          <div class="card-body">
+
+            <h2 class="h5 mb-3">
+              Alterar senha
+            </h2>
+
+            <form id="formSenha">
+
+              <div class="mb-3">
+                <label for="senhaAtual" class="form-label">
+                  Senha atual
+                </label>
+                <input id="senhaAtual" type="password" class="form-control" autocomplete="current-password" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="senhaNova" class="form-label">
+                  Nova senha
+                </label>
+                <input id="senhaNova" type="password" class="form-control" autocomplete="new-password" minlength="12"
+                  maxlength="128" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="senhaConfirma" class="form-label">
+                  Confirmar nova senha
+                </label>
+                <input id="senhaConfirma" type="password" class="form-control" autocomplete="new-password"
+                  minlength="12" maxlength="128" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Alterar senha
+              </button>
+            </form>
+
+            <p id="mensagemPerfil" class="small mt-3" role="status" aria-live="polite"></p>
+
+          </div>
+        </section>
+      </main>
+
+      <footer class="rodape">
+        Sistema de Estoque · Meu Perfil
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>
